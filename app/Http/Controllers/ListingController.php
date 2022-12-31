@@ -29,8 +29,9 @@ class ListingController extends Controller
         return view('listings.create');
     }
 
-    public function store()
+    public function store(Request $request)
     {
+    // dd($request->file());
        $formFields=request()->validate([
         'title'=>'required',
         'company'=>['required',Rule::unique('listings','company')],  
@@ -39,7 +40,7 @@ class ListingController extends Controller
         'email'=>['required','email'],
         'tags'=>'required',
         'description'=>'required'
-       ]);
+       ]);  
 
 
        if(request()->hasFile('logo')){
@@ -52,5 +53,43 @@ class ListingController extends Controller
        return redirect('/')->with('message','listing created successfully');
 
    
+    }
+    // show Edit form
+    public function edit(Listing $listing)
+    {
+    //    dd($listing);
+        return view('listings.edit',[
+            'listing' => $listing
+          ]);
+    }
+    public function update(Request $request,Listing $listing)
+    {
+//    dd($request);
+       $formFields=request()->validate([
+        'title'=>'required',
+        'company'=>['required'],  
+        'location'=>'required',
+        'website' =>'required',
+        'email'=>['required','email'],
+        'tags'=>'required',
+        'description'=>'required'
+       ]);  
+
+
+       if(request()->hasFile('logo')){
+        $formFields['logo']=request()->file('logo')->store('logos','public');
+       }
+        // storing data in database through model
+        $listing->update($formFields);
+
+       return back()->with('message','Listing Updated Successfully');
+
+   
+    }
+    public function destroy(Listing $listing)
+    {
+        // dd($listing);
+        $listing->delete();
+        return redirect('/')->with('message','Listing Deleted Successfully');
     }
 }

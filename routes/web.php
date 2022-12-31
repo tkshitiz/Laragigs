@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\ListingController;
+use App\Models\Listing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Models\Listing;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ListingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,14 +35,7 @@ Route::middleware(['auth','isAdmin'])->group(function () {
  
  });
  
-//  Route::get('/posts/{id}', function($id){
-//   // ddd($id);
-//     return response('Post'.$id);
-//  })->where('id','[0-9]+');
 
-//  Route::get('/search',function(Request $request){
-//    return $request->name ." ".$request->city;
-//  }); 
 
 // ALL LISTINGS
  Route::get('/',[ListingController::class,'index']);
@@ -49,7 +43,20 @@ Route::middleware(['auth','isAdmin'])->group(function () {
    //  create listing
 Route::get('listings/postjob',[ListingController::class, 'create']);
 // store listing
- Route::post('/listings',[ListingController::class, 'store']);
+ Route::post('/listings',[ListingController::class, 'store']); 
 //  Single Listing
   Route::get('listings/{listing}',[ListingController::class, 'show']);
+//  Edit Listing  
+Route::get('listings/{listing}/edit',[ListingController::class, 'edit']);
 
+// Edit Submit to update
+Route::put('listings/{listing}',[ListingController::class, 'update']);
+
+Route::delete('listings/{listing}',[ListingController::class, 'destroy']);
+
+
+//Show register form
+Route::get('/register',[UserController::class, 'create']);
+
+// create new user
+Route::post('/users',[UserController::class, 'store']);
