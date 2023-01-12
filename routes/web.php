@@ -22,11 +22,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/hello',function(){
-  return response('hello world');
-});
+// Route::get('/hello',function(){
+//   return response('hello world');
+// });
 
-// Auth::routes(); need to check
+// Auth::routes(); 
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::middleware(['auth','isAdmin'])->group(function () {
     Route::get('/dashboard', function () {      
@@ -64,4 +65,7 @@ Route::post('/users',[UserController::class, 'store']);
 Route::post('/logout',[UserController::class, 'logout']);
 
 //show login form
-Route::get('/login',[UserController::class, 'login']);
+Route::get('/login',[UserController::class, 'login']);\
+
+// authenticate user
+Route::post('/users/authenticate',[UserController::class, 'authenticate']);
