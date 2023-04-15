@@ -36,7 +36,7 @@ Route::middleware(['auth','isAdmin'])->group(function () {
  
  });
  
-
+echo "testing1";
 
 // ALL LISTINGS
  Route::get('/',[ListingController::class,'index']);

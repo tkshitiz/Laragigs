@@ -19,6 +19,7 @@ class ListingController extends Controller
 
     public function show(Listing $listing)
     {
+         echo "testing 2";
         return view('listings.show',[
             'listing' => $listing
           ]);
